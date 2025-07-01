@@ -39,8 +39,8 @@ type Task = {
   status: 'todo' | 'in-progress' | 'done';
 };
 
+
 export default function ProjectBoard() {
-  const [projectInfo, setProjectInfo] = useState<any>(null);
   const [inviteOpen, setInviteOpen] = useState(false);
   const [inviteEmail, setInviteEmail] = useState('');
   const [open, setOpen] = useState(false);
@@ -53,18 +53,6 @@ export default function ProjectBoard() {
   const api = useApi();
 
   const statuses = ['todo', 'in-progress', 'done'] as const;
-
-  const fetchTasks = async () => {
-    const res = await api.get(`/projects/${projectId}/tasks`);
-    setTasks(res.data);
-  };
-
-  const fetchProjectDetail = async () => {
-    const res = await api.get(`/projects/${projectId}/tasks`);
-    setProjectInfo(res.data);
-    setTasks(res.data.tasks);
-  };
-
   const handleInvite = async () => {
     if (!inviteEmail.trim()) return;
 
@@ -74,6 +62,12 @@ export default function ProjectBoard() {
 
     setInviteEmail('');
     setInviteOpen(false);
+  };
+
+  const fetchTasks = async () => {
+    const res = await api.get(`/projects/${projectId}/tasks`);
+    console.log(res.data.slice(0, 5));
+    setTasks(res.data);
   };
 
   const handleCreateTask = async () => {
@@ -102,7 +96,6 @@ export default function ProjectBoard() {
 
   useEffect(() => {
     if (projectId) fetchTasks();
-    if (projectId) fetchProjectDetail();
 
   }, [projectId]);
 
@@ -123,7 +116,7 @@ export default function ProjectBoard() {
       <Button variant="outline" className="mb-10" onClick={() => window.history.back()}>
       &larr; Back
       </Button>
-      <h1 className="text-2xl font-bold text-blue-700">Board Project</h1>
+      <h1 className="text-2xl font-bold text-blue-700">{title}</h1>
       <div className="flex items-center justify-between">
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
@@ -180,7 +173,6 @@ export default function ProjectBoard() {
             </div>
           </DialogContent>
         </Dialog>
-
         <Button variant="outline" className='bg-green-800 text-white' onClick={handleExport}>
           <Download1 className="mr-2 " />
           Export JSON
@@ -233,19 +225,7 @@ export default function ProjectBoard() {
       <div className="bg-white mb-10 p-4 rounded-md shadow-sm">
         <h2 className="text-lg font-semibold mb-2">Statistik Task</h2>
         <TaskChart data={statusCount} />
-        {projectInfo?.members?.length > 0 && (
-          <div className="bg-white p-4 rounded-md shadow-sm mb-4">
-            <h2 className="font-semibold mb-2">👥 Member Project</h2>
-            <ul className="text-sm text-gray-700 space-y-1">
-              {projectInfo.members.map((m: any) => (
-                <li key={m.id}>• {m.user.email}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-
       </div>
-
     </div>
   );
 }
