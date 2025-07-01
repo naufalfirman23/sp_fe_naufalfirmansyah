@@ -116,7 +116,7 @@ export default function ProjectBoard() {
       <Button variant="outline" className="mb-10" onClick={() => window.history.back()}>
       &larr; Back
       </Button>
-      <h1 className="text-2xl font-bold text-blue-700">{title}</h1>
+      <h1 className="text-2xl font-bold text-blue-700">Project Board</h1>
       <div className="flex items-center justify-between">
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
