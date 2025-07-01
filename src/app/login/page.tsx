@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useApi } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { useAuth } from '@/store/auth';
@@ -11,6 +12,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { AlertCircleIcon } from 'lucide-react';
 
 export default function LoginPage() {
+  const api = useApi();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState(false);
@@ -19,7 +21,7 @@ export default function LoginPage() {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post('http://localhost:3001/api/auth/login', {
+      const res = await api.post('/auth/login', {
         email, password
       });
       setToken(res.data.token);

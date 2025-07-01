@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useApi } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { Input } from "@/components/ui/input";
@@ -8,13 +9,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 export default function RegisterPage() {
+  const api = useApi();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
 
   const handleRegister = async () => {
     try {
-      await axios.post('http://localhost:3001/api/auth/register', { email, password });
+      await api.post('/auth/register', { email, password });
       alert('Berhasil daftar. Silakan login.');
       router.push('/login');
     } catch {

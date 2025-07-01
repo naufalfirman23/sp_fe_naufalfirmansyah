@@ -5,7 +5,7 @@ export const useApi = () => {
   const token = useAuth.getState().token;
 
   return axios.create({
-    baseURL: 'http://localhost:3001/api',
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
     headers: {
       Authorization: `Bearer ${token}`,
     },
