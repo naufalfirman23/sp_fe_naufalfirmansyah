@@ -5,7 +5,7 @@ export const useApi = () => {
   const token = useAuth.getState().token;
 
   return axios.create({
-    baseURL: 'http://localhost:3001/api',
+    baseURL: 'https://spbenaufalfirmansyah-production.up.railway.app/api',
     headers: {
       Authorization: `Bearer ${token}`,
     },
