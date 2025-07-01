@@ -60,7 +60,7 @@ export default function ProjectBoard() {
   };
 
   const fetchProjectDetail = async () => {
-    const res = await api.get(`/projects/${projectId}`);
+    const res = await api.get(`/projects/${projectId}/tasks`);
     setProjectInfo(res.data);
     setTasks(res.data.tasks);
   };
